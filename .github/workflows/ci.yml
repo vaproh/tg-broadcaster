@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: self-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          enable-cache: true
+
+      - name: Install
+        run: uv sync --frozen
+
+      - name: Offline checks
+        run: uv run python app.py --self-check
+
+      - name: Refuse private files
+        run: |
+          bad=$(git ls-files \
+            | grep -E '(^|/)(\.env|accounts\.json|state\.json)$|^sessions/|\.session$|^posts/' \
+            | grep -v '^posts/default\.html$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Private files are tracked:"
+            echo "$bad"
+            exit 1
+          fi
+
+  docker:
+    name: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

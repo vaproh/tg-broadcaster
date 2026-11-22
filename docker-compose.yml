@@ -1,0 +1,19 @@
+services:
+  tg-broadcaster:
+    image: ghcr.io/vaproh/tg-broadcaster:latest
+    build: .
+    container_name: tg-broadcaster
+    restart: unless-stopped
+    init: true
+    user: "${TG_UID:-1000}:${TG_GID:-1000}"
+    env_file: .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - ./sessions:/app/sessions
+      - ./posts:/app/posts
+      - ./accounts.json:/app/accounts.json
+      - ./state.json:/app/state.json
+    labels:
+      com.centurylinklabs.watchtower.enable: "false"

@@ -1,0 +1,28 @@
+# Credentials and local state — never commit these.
+.env
+.env.*
+!.env.example
+sessions/
+*.session
+*.session-journal
+accounts.json
+state.json
+*.bak
+
+# User posts. The sample stays in the repo.
+posts/*
+!posts/default.html
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Build output
+dist/
+build/
