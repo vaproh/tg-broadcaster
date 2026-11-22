@@ -17,5 +17,10 @@ RUN uv sync --frozen --no-dev
 COPY app.py ./
 COPY posts ./posts
 
-ENV PATH="/app/.venv/bin:$PATH"
+RUN useradd --uid 1000 --create-home --shell /usr/sbin/nologin app \
+    && chown -R app:app /app
+
+USER app
+ENV PATH="/app/.venv/bin:$PATH" \
+    HOME=/home/app
 CMD ["python", "app.py"]

@@ -1,6 +1,6 @@
 [project]
 name = "tg-broadcaster"
-version = "1.0.0"
+version = "1.0.1"
 description = "Self-hosted Telegram control bot that posts formatted messages from your own accounts to groups on a schedule."
 readme = "README.md"
 requires-python = ">=3.10"

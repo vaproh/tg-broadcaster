@@ -87,6 +87,8 @@ The image is also published:
 docker pull ghcr.io/vaproh/tg-broadcaster:latest
 ```
 
+Image tags: `latest`, `1.0.1`, `1.0` (the `v` prefix is only on the git tag).
+
 Compose uses the published image name and can build the same image locally.
 `TG_UID`/`TG_GID` must match the owner of the mounted files; the default is
 `1000:1000`.

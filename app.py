@@ -39,7 +39,7 @@ from telethon.errors import (
 )
 from telethon.extensions import html as tg_html
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 ROOT = Path(__file__).resolve().parent
 CONFIG_PATH = ROOT / "accounts.json"
